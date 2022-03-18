@@ -5,12 +5,18 @@ app = flask.Flask(__name__)
 
 @app.route("/")
 def index():
-    # ip = get_my_ip()
-    return "Hello Heruko"
+    ip_addr = request.remote_addr
+    return '<h1> Your IP address is:' + ip_addr + '</h1>'
 
-@app.route("/get_my_ip", methods=["GET"])
-def get_my_ip():
-    return ('Your ip is: ' + request.remote_addr), 200
+@app.route('/c')
+def client():
+    ip_addr = request.environ['REMOTE_ADDR']
+    return '<h1> Your IP address is:' + ip_addr + '</h1>'
+
+@app.route('/pc')
+def proxy_client():
+    ip_addr = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+    return '<h1> Your IP address is:' + ip_addr + '</h1>'
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=5000)
+    app.run(host='localhost', port=5000, debug=True)
