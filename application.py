@@ -8,11 +8,12 @@ def index():
 
 @app.route('/ip')
 def ip():
-    template = ''
+    template = 'Your IP: not found.'
     ip = getIP()
-    ip = [_ for _ in ip if not _.startswith('169.254')]
+    ip = [ _ for _ in ip if not _.startswith('169.254')]
     if ip:
-        template = '<h1> IP: ' + ip[0] + '</h1>'
+        tmp = ip[0].split(':')
+        template = '<h1>Your IP: ' + tmp[0] + '</h1>'
     return template
 
 def getIP():
